@@ -7,14 +7,12 @@ import {
 import { map } from 'rxjs';
 
 @Injectable()
-export class UpdateFlowInterceptor implements NestInterceptor {
+export class CustomFileInterceptor implements NestInterceptor {
   public intercept(_context: ExecutionContext, next: CallHandler) {
     // changing request
     const request = _context.switchToHttp().getRequest();
 
-    if (request.image) {
-      request.file = request.image;
-    }
+    request['fileBuffer'] = request.image;
 
     return next.handle().pipe(
       map((flow) => {
